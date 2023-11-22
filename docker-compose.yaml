@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  hmdwa:
+    # TODO: add GitHub or Gitlab CI/CD for autobuild and deploy
+    # image:
+    build: web
+    container_name: "hmdwa"
+    restart: always
+    env_file:
+      - .env
+    # connect container to Traefik external network
+    # docs: https://doc.traefik.io/traefik/providers/docker/#network
+    expose:
+      - 8080
+    networks: 
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hmdwa.rule=Host(`howmanydayswithoutalarm.ru`)"
+      - "traefik.http.routers.hmdwa.entrypoints=https"
+      - "traefik.http.routers.hmdwa.tls.certresolver=letsencrypt"
+
+networks:
+  web:
+    external: true
