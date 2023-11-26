@@ -9,9 +9,6 @@ from starlette.templating import Jinja2Templates
 import uvicorn
 import pymongo
 import certifi
-
-timezone = pytz.timezone("Europe/Moscow")
-
 from models import Alarm
 
 
@@ -21,6 +18,7 @@ if not uri:
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+timezone = pytz.timezone("Europe/Moscow")
 
 
 @app.on_event("startup")
