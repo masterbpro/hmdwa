@@ -9,8 +9,7 @@ services:
     restart: always
     env_file:
       - .env
-    command:
-      - python web/app.py
+    command: python web/app.py
     # connect container to Traefik external network
     # docs: https://doc.traefik.io/traefik/providers/docker/#network
     expose:
