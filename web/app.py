@@ -2,6 +2,7 @@ import datetime
 import os
 import sys
 
+import pytz
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from starlette.templating import Jinja2Templates
@@ -9,7 +10,10 @@ import uvicorn
 import pymongo
 import certifi
 
+timezone = pytz.timezone("Europe/Moscow")
+
 from models import Alarm
+
 
 uri = os.getenv("DB_URI")
 if not uri:
@@ -35,7 +39,7 @@ def shutdown_db_client():
 async def index(request: Request):
     query = app.db.alarm.find_one()
     result = Alarm(**query)
-    days_without_alarm = datetime.datetime.now() - result.alarm_at
+    days_without_alarm = datetime.datetime.now(timezone) - result.alarm_at
 
     return templates.TemplateResponse(
         "index.html",
