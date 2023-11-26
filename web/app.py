@@ -44,7 +44,7 @@ async def index(request: Request):
         context={
             "request": request,
             "days_without_alarm": days_without_alarm.days,
-            "last_update": result.alarm_at.strftime("%H:%M:%S %d.%m.%Y"),
+            "last_update": result.alarm_at.strftime("%H:%M %d.%m.%Y"),
         },
     )
 
