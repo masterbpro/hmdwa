@@ -9,7 +9,7 @@ import uvicorn
 import pymongo
 import certifi
 
-from models.db import Alarm
+from models import Alarm
 
 uri = os.getenv("DB_URI")
 if not uri:
