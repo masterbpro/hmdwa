@@ -1,3 +1,4 @@
+import datetime
 import os
 import sys
 
@@ -7,6 +8,8 @@ from starlette.templating import Jinja2Templates
 import uvicorn
 import pymongo
 import certifi
+
+from models.db import Alarm
 
 uri = os.getenv("DB_URI")
 if not uri:
@@ -30,13 +33,16 @@ def shutdown_db_client():
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
-    result = app.status.find_one()
+    query = app.db.alarm.find_one()
+    result = Alarm(**query)
+    days_without_alarm = datetime.datetime.now() - result.alarm_at
+
     return templates.TemplateResponse(
         "index.html",
         context={
             "request": request,
-            "days_without_alarm": result.get("days_without_alarm"),
-            "last_update": result.get("last_update"),
+            "days_without_alarm": days_without_alarm.days,
+            "last_update": result.alarm_at.strftime("%H:%M:%S %d.%m.%Y"),
         },
     )
 
