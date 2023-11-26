@@ -4,7 +4,7 @@ services:
   hmdwa:
     # TODO: add GitHub or Gitlab CI/CD for autobuild and deploy
     # image:
-    build: web
+    build: .
     container_name: "hmdwa"
     restart: always
     env_file:
